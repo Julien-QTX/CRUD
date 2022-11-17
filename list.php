@@ -1,9 +1,10 @@
-<?php require 'connect.php'; if($_SERVER["REQUEST_METHOD"]== "POST" && !empty($_POST)){
-    $sql = "INSERT INTO user (name,firstname,age,tel, email, pays,comment, metier,url) values(?, ?, ?, ? , ? , ? , ? , ?, ?)";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($name,$firstname, $age, $tel, $email,$pays,$comment, $metier, $url));
+<?php 
+require 'connect.php'; if($_SERVER["REQUEST_METHOD"]== "POST" && !empty($_POST)){
+    $sql = "INSERT INTO Livre (nom,synopsis,auteur,genre) values(?, ?, ?, ?)";
+    $q = prepare($sql);
+    $q->execute(array($nom,$synopsis, $auteur, $genre));
     Database::disconnect();
-    header("Location: index.php");
+    header("Location: list.php");
 }
 ?>
 <!DOCTYPE html>
@@ -18,110 +19,72 @@
     <title>CRUD</title>
 </head>
 <body>
-
     
     <div class="container">
 
-    <div class="row">
+        <div class="row">
 
-    <h2>CRUD</h2>
-
-    <br />
-    <div class="row">
-                    
-        <a href="add.php" class="btn btn-success">Ajouter un user</a>
-                    
-
-        <br />
-        <div class="table-responsive">
-
-        <br />
-            <table class="table table-hover table-bordered">
+            <h2>CRUD</h2>
 
             <br />
-            <thead>
-
-            <th>Name</th>
-            <p>
-
-            <th>Firstname</th>
-            <p>
-
-            <th>Age</th>
-            <p>
-
-            <th>Tel</th>
-            <p>
-
-            <th>Pays</th>
-            <p>
-
-            <th>Email</th>
-            <p>
-
-            <th>Comment</th>
-            <p>
-
-            <th>metier</th>
-            <p>
-
-            <th>Url</th>
-            <p>
-
-            <th>Edition</th>
-            <p>
-
-            </thead>
-            <p>
-
-            <br />
-                <tbody>
-                    <?php include 'connect.php';
-                        
-                        echo '<br /> <tr>';
-
-                            echo'<td>' . $row['name'] . '</td>';
-                        
-                            echo'<td>' . $row['firstname'] . '</td>';
-                        
-                            echo'<td>' . $row['age'] . '</td>';
-                                                
-                            echo'<td>' . $row['tel'] . '</td>';
-                                                
-                            echo'<td>' . $row['email'] . '</td>';
-                                                
-                            echo'<td>' . $row['pays'] . '</td>';
-                                                
-                            echo'<td>' . $row['comment'] . '</td>';
-                                                
-                            echo'<td>' . $row['metier'] . '</td>';
-                                                
-                            echo'<td>' . $row['url'] . '</td>';
+            <div class="row">
                             
+                <a href="create.php" class="btn btn-success">Ajouter un Livre</a>
                             
-                            echo '<td>';
-                            
-                                echo '<a class="btn btn-success" href="update.php?id=' . $row['id'] . '">Update</a>';
-                                                
-                            echo '</td>';
-                                        
-                            echo'<td>';
-                                                
-                                echo '<a class="btn btn-danger" href="delete.php?id=' . $row['id'] . ' ">Delete</a>';
-                                                
-                            echo '</td>';
-                                            
-                        echo '</tr>';
-                                        
-                        Database::disconnect();
-                    ?>    
-                </tbody>
-                <p>
+                <br />
+                <div class="table-responsive">
 
-            </table>
+                    <br />
+                    <table class="table table-hover table-bordered">
 
+                        <br />
+                        <thead>
+
+                            <th>Nom</th>
+
+                            <th>Synopsis</th>
+
+                            <th>Auteur</th>
+
+                            <th>Genre</th>
+                        
+                        </thead>
+
+                        <br />
+                        <tbody>
+                            <?php include 'connect.php';
+                                
+                                echo '<br /> <tr>';
+
+                                    echo'<td>' . $row['nom'] . '</td>';
+                                
+                                    echo'<td>' . $row['synopsis'] . '</td>';
+                                
+                                    echo'<td>' . $row['auteur'] . '</td>';
+                                                        
+                                    echo'<td>' . $row['genre'] . '</td>';
+                                    
+                                    echo '<td>';
+                                    
+                                        echo '<a class="btn btn-success" href="update.php?id=' . $row['id'] . '">Update</a>';
+                                                        
+                                    echo '</td>';
+                                                
+                                    echo'<td>';
+                                                        
+                                        echo '<a class="btn btn-danger" href="delete.php?id=' . $row['id'] . ' ">Delete</a>';
+                                                        
+                                    echo '</td>';
+                                                    
+                                echo '</tr>';
+                                                
+                                Database::disconnect();
+                            ?>    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
     </div>
 
 </body>

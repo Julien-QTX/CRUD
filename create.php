@@ -1,9 +1,10 @@
-<?php require('connect.php');
-    $sql = "SELECT * FROM user where id =?";
+<?php require 'connect.php'; if($_SERVER["REQUEST_METHOD"]== "POST" && !empty($_POST)){ 
+    $sql = "INSERT INTO user (nom,synopsis,auteur,genre) values(?, ?, ?, ? )";
     $q = $pdo->prepare($sql);
-    $q->execute(array($id));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
+    $q->execute(array($nom,$synopsis,$auteur,$genre));
     Database::disconnect();
+    header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,151 +17,87 @@
     <title>CRUD</title>
 </head>
 <body>
-    
+
+    <br />
     <div class="container">
 
         <br />
-        <div class="span10 offset1">
+        <div class="row">
+
+            <br/>
+            <h3>Ajouter un contact</h3>
+            
+        </div>
+
+
+        <br />
+        <form method="post" action="create.php">
 
             <br />
-            <div class="row">
+            <div class="control-group <?php echo !empty($nomError)?'error':'';?>">
+                    
+                <label class="control-label">Nom</label>
 
                 <br />
-                <h3>Edition</h3>
-
+                <div class="controls">
+                    <input name="nom" type="text"  placeholder="Nom" value="<?php echo !empty($nom)?$nom:'';?>">
+                    <?php if (!empty($nomError)): ?>
+                        <span class="help-inline"><?php echo $nomError;?></span>
+                    <?php endif; ?>
                 </div>
 
-                    <br />
-                    <div class="form-horizontal" >
 
-                        <br />
-                        <div class="control-group">
-                            <label class="control-label">Name</label>
+            </div>
 
-                            <br />
-                            <div class="controls">
-                                <label class="checkbox">
-                                    <?php echo $data['name']; ?>
-                                </label>
-                            </div>
+            <div class="control-group <?php echo !empty($synopsisError)?'error':'';?>">
+                    
+                <label class="control-label">Synopsis</label>
 
-                        </div>
-
-
-                        <br />
-                        <div class="control-group">
-                            <label class="control-label">Firstname</label>
-
-                            <br />
-                            <div class="controls">
-                                <label class="checkbox">
-                                    <?php echo $data['firstname']; ?>
-                                </label>
-                            </div>
-                        </div>
-
-                        <br />
-                        <div class="control-group">
-                            <label class="control-label">Email Address</label>
-
-                            <br />
-                            <div class="controls">
-                                <label class="checkbox">
-                                    <?php echo $data['email']; ?>
-                                </label>
-                            </div>
+                <br />
+                <div class="controls">
+                    <input name="synopsis" type="text"  placeholder="Synopsis" value="<?php echo !empty($synopsis)?$synopsis:'';?>">
+                    <?php if (!empty($synopsisError)): ?>
+                        <span class="help-inline"><?php echo $synopsisError;?></span>
+                    <?php endif; ?>
+                </div>
 
 
-                        </div>
+            </div>
+
+            <div class="control-group <?php echo !empty($auteurError)?'error':'';?>">
+                    
+                <label class="control-label">Auteur</label>
+
+                <br />
+                <div class="controls">
+                    <input name="auteur" type="text"  placeholder="Auteur" value="<?php echo !empty($auteur)?$auteur:'';?>">
+                    <?php if (!empty($auteurError)): ?>
+                        <span class="help-inline"><?php echo $auteurError;?></span>
+                    <?php endif; ?>
+                </div>
 
 
+            </div>
 
-                        <br />
-                        <div class="control-group">
-                            <label class="control-label">Phone</label>
+            <div class="control-group <?php echo !empty($genreError)?'error':'';?>">
+                    
+                <label class="control-label">Genre</label>
 
-                            <br />
-                            <div class="controls">
-                            <label class="checkbox">
-                                <?php echo $data['tel']; ?>
-                            </label>
-                        </div>
-
-                    </div>
-
-                    <br />
-
-                    <div class="control-group">
-                        <label class="control-label">Pays</label>
-
-
-                        <br />
-
-                        <div class="controls">
-                            <label class="checkbox">
-                                <?php echo $data['pays']; ?>
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <br />
-                    <div class="control-group">
-                        <label class="control-label">Metier</label>
-
-
-                        <br/>
-
-                        <div class="controls">
-                            <label class="checkbox">
-                                <?php echo $data['metier']; ?>
-                            </label>
-
-                        </div>
-
-
-                    </div>
-
-                    <br/>
-
-                    <div class="control-group">
-                        <label class="control-label">Url</label>
-                        <br/>
-
-                        <div class="controls">
-                            <label class="checkbox">
-                                <?php echo $data['url']; ?>
-                            </label>
-                        </div>
-
-                    </div>
-
-                    <br />
-
-                    <div class="control-group">
-                        <label class="control-label">Comment</label>
-
-                        <br />
-                        <div class="controls">
-                            <label class="checkbox">
-                                <?php echo $data['comment']; ?>
-                            </label>
-
-                        </div>
-
-                    </div>
-                    <br/>
-
-                    <div class="form-actions">
-                        <a class="btn" href="index.php">Back</a>
-                    </div>
-
+                <br />
+                <div class="controls">
+                    <input name="genre" type="text"  placeholder="Genre" value="<?php echo !empty($genre)?$genre:'';?>">
+                    <?php if (!empty($genreError)): ?>
+                        <span class="help-inline"><?php echo $genreError;?></span>
+                    <?php endif; ?>
                 </div>
 
             </div>
 
-        </div>
-    </div>
+            <div class="form-actions">
+                <input type="submit" class="btn btn-success" name="submit" value="submit">
+                <a class="btn" href="index.php">Retour</a>
+            </div>
+        </form>              
+    </div> 
 </body>
 </html>

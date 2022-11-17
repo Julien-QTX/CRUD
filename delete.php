@@ -1,9 +1,9 @@
-<?php require 'database.php'; $id=0; if(!empty($_GET['id'])){ $id=$_REQUEST['id']; } if(!empty($_POST)){ $id= $_POST['id']; $pdo=Database::connect(); $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "DELETE FROM user  WHERE id = ?";
+<?php require 'connect.php'; $id=0; if(!empty($_GET['id'])){ $id=$_REQUEST['id']; } if(!empty($_POST)){ $id= $_POST['id']; $pdo=Database::connect(); $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "DELETE FROM Livre  WHERE id = ?";
     $q = $pdo->prepare($sql);
     $q->execute(array($id));
     Database::disconnect();
-    header("Location: index.php");
+    header("Location: list.php");
 }
 ?>
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
             <div class="row">
 
                 <br />
-                <h3>Delete a user</h3>
+                <h3>Supprimer un Livre</h3>
 
             </div>
                             
@@ -37,20 +37,16 @@
 
                 <input type="hidden" name="id" value="<?php echo $id;?>"/>
                                     
-                Are you sure to delete ?
+                Etes-vous sur de vouloir le supprimer ?
 
                 <br />
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-danger">Yes</button>
-                    <a class="btn" href="index.php">No</a>
+                    <button type="submit" class="btn btn-danger">Oui</button>
+                    <a class="btn" href="index.php">Non</a>
                 </div>
-                <p>
 
             </form>
-
         </div>
-          
     </div>
-
 </body>
 </html>

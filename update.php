@@ -1,23 +1,20 @@
-<?php require 'connect.php'; $id = null; if ( !empty($_GET['id'])) { $id = $_REQUEST['id']; } if ( null==$id ) { header("Location: list.php"); } if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { 
-             
+<?php require 'connect.php'; 
+$id = null; 
+if ( !empty($_GET['id'])) { 
+    $id = $_REQUEST['id']; 
+} 
+if ( null==$id ) { 
+} 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {        
     $sql = "UPDATE Livre SET nom = ?,synopsis = ?,auteur = ?,genre = ? WHERE id = ?";
-    $q = $pdo->prepare($sql);
+    $q = $bdh->prepare($sql);
     $q->execute(array($nom,$synopsis, $auteur, $genre,$id));
-    Database::disconnect();
     header("Location: list.php");
 }else {
-
-    $pdo = Database::connect();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql = "SELECT * FROM livre where id = ?";
-    $q = $pdo->prepare($sql);
+    $q = $bdh->prepare($sql);
     $q->execute(array($id));
     $data = $q->fetch(PDO::FETCH_ASSOC);
-    $nom = $data['nom'];
-    $synopsis = $data['synopsis'];
-    $auteur = $data['auteur'];
-    $genre = $data['genre'];
-    Database::disconnect();
 }
 ?>
 <!DOCTYPE html>
@@ -26,9 +23,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-wp-preserve="%3Cscript%20src%3D%22js%2Fbootstrap.js%22%3E%3C%2Fscript%3E" data-mce-resize="false" data-mce-placeholder="1" class="mce-object" width="20" height="20" alt="<script>" title="<script>" />
-    <title>CRUD</title>
+    <title>CRUD UPDATE</title>
 </head>
 <body>
 
@@ -66,7 +65,7 @@
 
             <br />
     
-            <div class="control-group<?php echo!empty($synopsisError) ? 'error' : ''; ?>">
+            <div class="control-group <?php echo!empty($synopsisError) ? 'error' : ''; ?>">
                 
                 <label class="control-label">Synopsis</label>
 
@@ -75,7 +74,7 @@
     
                 <div class="controls">
                         
-                    <input type="text" name="synopsis" value="<?php echo!empty($synopsis) ? $synopsis : ''; ?>">
+                    <input type="text" name="synopsis" placeholder= "Synopsis" value="<?php echo!empty($synopsis) ? $synopsis : ''; ?>">
                             
                     <?php if (!empty($synopsisError)): ?>      
                         <span class="help-inline"><?php echo $synopsisError; ?></span> 
@@ -92,7 +91,7 @@
                 <br />
                 <div class="controls">
                             
-                    <input type="text" name="auteur" value="<?php echo!empty($auteur) ? $auteur : ''; ?>">
+                    <input type="text" name="auteur" placeholder= "Auteur" value="<?php echo!empty($auteur) ? $auteur : ''; ?>">
 
                     <?php if (!empty($auteurError)): ?>
                         <span class="help-inline"><?php echo $auteurError; ?></span>
@@ -114,11 +113,12 @@
                 <?php endif; ?>
 
             </div>
+            <br>
 
             <div class="form-actions">
 
                 <input type="submit" class="btn btn-success" name="submit" value="submit">
-                <a class="btn" href="index.php">Retour</a>
+                <a class="btn" href="list.php">Retour</a>
 
             </div>
 

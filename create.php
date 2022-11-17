@@ -1,9 +1,14 @@
-<?php require 'connect.php'; if($_SERVER["REQUEST_METHOD"]== "POST" && !empty($_POST)){ 
-    $sql = "INSERT INTO user (nom,synopsis,auteur,genre) values(?, ?, ?, ? )";
-    $q = $pdo->prepare($sql);
+<?php 
+require 'connect.php';
+if($_SERVER["REQUEST_METHOD"]== "POST" && !empty($_POST)){ 
+    $sql = "INSERT INTO Livre (nom,synopsis,auteur,genre) values(?, ?, ?, ? )";
+    $nom = $_POST['nom'];
+    $synopsis = $_POST['synopsis'];
+    $auteur = $_POST['auteur'];
+    $genre = $_POST['genre'];
+    $q = $bdh->prepare($sql);
     $q->execute(array($nom,$synopsis,$auteur,$genre));
-    Database::disconnect();
-    header("Location: index.php");
+    header("Location: list.php");
 }
 ?>
 <!DOCTYPE html>
@@ -12,9 +17,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-wp-preserve="%3Cscript%20src%3D%22js%2Fbootstrap.min.js%22%3E%3C%2Fscript%3E" data-mce-resize="false" data-mce-placeholder="1" class="mce-object" width="20" height="20" alt="<script>" title="<script>" />
-    <title>CRUD</title>
+    <title>CRUD CREATE</title>
 </head>
 <body>
 
@@ -92,10 +99,10 @@
                 </div>
 
             </div>
-
+            <br>
             <div class="form-actions">
                 <input type="submit" class="btn btn-success" name="submit" value="submit">
-                <a class="btn" href="index.php">Retour</a>
+                <a class="btn" href="list.php">Retour</a>
             </div>
         </form>              
     </div> 
